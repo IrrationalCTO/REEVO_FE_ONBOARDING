@@ -1,5 +1,5 @@
 import { Container, Graphics } from 'pixi.js'
-import { COLORS} from '../theme'
+import type { Theme } from '../theme'
 
 export class GameView extends Container {
 
@@ -8,12 +8,13 @@ export class GameView extends Container {
  private readonly areaMask = new Graphics()
  private readonly areaWidth: number;
  private readonly areaHeight: number;
+ private readonly theme: Theme
 
-
- constructor(areaWidth: number, areaHeight: number) {
+ constructor(areaWidth: number, areaHeight: number, theme: Theme) {
     super();
     this.areaWidth = areaWidth;
     this.areaHeight = areaHeight;
+    this.theme = theme
 
     this.drawBackground();
     this.setUpMask()
@@ -24,13 +25,13 @@ export class GameView extends Container {
 
  private drawBackground(): void {
     this.background.rect(0, 0, this.areaWidth, this.areaHeight)
-    .fill(COLORS.WHITE)
-    .stroke({width: 1, color: COLORS.BLACK})
+    .fill(this.theme.areaFill)
+    .stroke(this.theme.areaBorder)
  }
 
  private setUpMask(): void {
     this.areaMask.rect(0, 0, this.areaWidth, this.areaHeight)
-    .fill(COLORS.PAGE_BG)
+    .fill(0xffffff)
  }
 
 }
