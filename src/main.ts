@@ -2,15 +2,19 @@ import { Application } from 'pixi.js'
 import { config } from './config';
 import "./style.css"
 import { ERROR_MESSAGES } from './errorMessages'
+import { getInitialTheme } from './theme';
 import { GameView } from './view/GameView';
 
 async function bootstrap() {
+
+  const theme = getInitialTheme()
+  document.body.style.background = `#${theme.pageBackground.toString(16).padStart(6,'0')}`
 
   const app = new Application();
   await app.init({
      width: config.AREA_WIDTH + config.AREA_PADDING * 2,
      height: config.AREA_HEIGHT + config.AREA_PADDING * 2,
-     backgroundColor: 0xf0f0f0,
+     background: theme.pageBackground,
      antialias: true,
      autoDensity: true,
      resolution: window.devicePixelRatio
@@ -22,11 +26,10 @@ async function bootstrap() {
   }
 
   appContainer.appendChild(app.canvas)
-  const gameView = new GameView(config.AREA_WIDTH, config.AREA_HEIGHT)
+  const gameView = new GameView(config.AREA_WIDTH, config.AREA_HEIGHT, theme)
   gameView.position.set(config.AREA_PADDING, config.AREA_PADDING)
 
   app.stage.addChild(gameView)
 }
-
 
 bootstrap().catch(console.error)
