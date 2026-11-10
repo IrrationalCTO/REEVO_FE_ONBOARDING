@@ -11,7 +11,7 @@ export class CircleShape extends Shape {
     }
 
     public getArea(): number {
-        // formula to calc area
+        // formula to calc area (π × r²)
         return Math.PI * this.size * this.size
     }
 

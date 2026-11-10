@@ -5,6 +5,8 @@ import { ERROR_MESSAGES } from './errorMessages'
 import { getInitialTheme } from './theme';
 import { GameView } from './view/GameView';
 import { CircleShape } from './shapes/types/CircleShape';
+import { EllipseShape } from './shapes/types/EllipseShape';
+import { Shape } from './shapes/base/Shape';
 
 async function bootstrap() {
 
@@ -33,8 +35,15 @@ async function bootstrap() {
   app.stage.addChild(gameView)
 
   //random color
-  const color = theme.shapePallete[Math.floor(Math.random() * theme.shapePallete.length)]
-  const circle = new CircleShape(color, 30) 
+  const randomColor = () => theme.shapePallete[Math.floor(Math.random() * theme.shapePallete.length)];
+
+  const shapes = new Set <Shape>();
+  const circle = new CircleShape(randomColor(), 30) 
+  const ellipse = new EllipseShape(randomColor(), 25)
+  
+  shapes.add(circle)
+  shapes.add(ellipse)
+
   circle.x = config.AREA_WIDTH / 2
   circle.y = -30
   gameView.shapesLayer.addChild(circle)
