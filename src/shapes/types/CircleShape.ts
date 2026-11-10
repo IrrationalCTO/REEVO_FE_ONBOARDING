@@ -4,6 +4,7 @@ export class CircleShape extends Shape {
 
     constructor(color: number, size: number) {
         super(color, size)
+        this.render()
     }
 
     protected draw(): void {

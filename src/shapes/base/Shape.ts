@@ -10,7 +10,6 @@ export abstract class Shape extends Graphics {
     super()
     this.size = size
     this.color = color
-    this.draw()
  }
 
  protected abstract draw(): void;
@@ -20,6 +19,11 @@ export abstract class Shape extends Graphics {
  public updateGravity(gravity: number, deltaTime: number): void {
     this.velocityY += gravity * deltaTime //speed (acceleration)
     this.y += this.velocityY * deltaTime  //position (actual movement)
+ }
+
+ public render(): void {
+    this.clear()
+    this.draw()
  }
 
 }

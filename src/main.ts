@@ -7,6 +7,8 @@ import { GameView } from './view/GameView';
 import { CircleShape } from './shapes/types/CircleShape';
 import { EllipseShape } from './shapes/types/EllipseShape';
 import { Shape } from './shapes/base/Shape';
+import { StarShape } from './shapes/types/StarShape';
+import { PolygonShape } from './shapes/types/PolygonShape';
 
 async function bootstrap() {
 
@@ -40,27 +42,26 @@ async function bootstrap() {
   const shapes = new Set <Shape>();
   const circle = new CircleShape(randomColor(), 30) 
   const ellipse = new EllipseShape(randomColor(), 25)
-  
+  const starShape = new StarShape(randomColor(), 40)
+
   shapes.add(circle)
   shapes.add(ellipse)
+  shapes.add(starShape)
+  shapes.add(new PolygonShape(randomColor(), 30, 3))
+  shapes.add(new PolygonShape(randomColor(), 30, 6))
 
  let i = 0
  for (const shape of shapes) {
-  shape.x = 200 + i * 300
+  shape.x = 100 + i * 150
   shape.y = -50
   gameView.shapesLayer.addChild(shape)
   i++
  }
 
-
-
-
   app.ticker.add((ticker) => {
     for (const shape of shapes) {
       shape.updateGravity(config.GRAVITY, ticker.deltaTime)
     }
-
-    circle.updateGravity(config.GRAVITY, ticker.deltaTime)
   })
 }
 
