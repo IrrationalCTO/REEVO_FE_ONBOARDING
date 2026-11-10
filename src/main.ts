@@ -10,6 +10,7 @@ import { Shape } from './shapes/base/Shape';
 import { StarShape } from './shapes/types/StarShape';
 import { PolygonShape } from './shapes/types/PolygonShape';
 import { IrregularShape } from './shapes/types/IrregularShape';
+import { ShapeFactory } from './shapes/factory/ShapeFactory';
 
 async function bootstrap() {
 
@@ -41,17 +42,7 @@ async function bootstrap() {
   const randomColor = () => theme.shapePallete[Math.floor(Math.random() * theme.shapePallete.length)];
 
   const shapes = new Set <Shape>();
-  const circle = new CircleShape(randomColor(), 30) 
-  const ellipse = new EllipseShape(randomColor(), 25)
-  const starShape = new StarShape(randomColor(), 40)
-
-  shapes.add(circle)
-  shapes.add(ellipse)
-  shapes.add(starShape)
-  shapes.add(new PolygonShape(randomColor(), 30, 3))
-  shapes.add(new PolygonShape(randomColor(), 30, 6))
-  shapes.add(new IrregularShape(randomColor(), 30))
-
+  for (let i = 0; i < 6; i++) shapes.add(ShapeFactory.createRandom(theme.shapePallete))
  let i = 0
  for (const shape of shapes) {
   shape.x = 80 + i * 125
