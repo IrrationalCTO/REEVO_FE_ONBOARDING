@@ -9,6 +9,7 @@ import { EllipseShape } from './shapes/types/EllipseShape';
 import { Shape } from './shapes/base/Shape';
 import { StarShape } from './shapes/types/StarShape';
 import { PolygonShape } from './shapes/types/PolygonShape';
+import { IrregularShape } from './shapes/types/IrregularShape';
 
 async function bootstrap() {
 
@@ -49,10 +50,11 @@ async function bootstrap() {
   shapes.add(starShape)
   shapes.add(new PolygonShape(randomColor(), 30, 3))
   shapes.add(new PolygonShape(randomColor(), 30, 6))
+  shapes.add(new IrregularShape(randomColor(), 30))
 
  let i = 0
  for (const shape of shapes) {
-  shape.x = 100 + i * 150
+  shape.x = 80 + i * 125
   shape.y = -50
   gameView.shapesLayer.addChild(shape)
   i++
