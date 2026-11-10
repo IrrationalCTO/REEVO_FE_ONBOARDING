@@ -1,2 +1,2 @@
 export * from './Theme'
-export * from './Themes'
+export * from './themes'
