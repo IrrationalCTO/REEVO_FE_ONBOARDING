@@ -44,11 +44,22 @@ async function bootstrap() {
   shapes.add(circle)
   shapes.add(ellipse)
 
-  circle.x = config.AREA_WIDTH / 2
-  circle.y = -30
-  gameView.shapesLayer.addChild(circle)
+ let i = 0
+ for (const shape of shapes) {
+  shape.x = 200 + i * 300
+  shape.y = -50
+  gameView.shapesLayer.addChild(shape)
+  i++
+ }
+
+
+
 
   app.ticker.add((ticker) => {
+    for (const shape of shapes) {
+      shape.updateGravity(config.GRAVITY, ticker.deltaTime)
+    }
+
     circle.updateGravity(config.GRAVITY, ticker.deltaTime)
   })
 }
