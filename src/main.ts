@@ -4,6 +4,7 @@ import "./style.css"
 import { ERROR_MESSAGES } from './errorMessages'
 import { getInitialTheme } from './theme';
 import { GameView } from './view/GameView';
+import { CircleShape } from './shapes/types/CircleShape';
 
 async function bootstrap() {
 
@@ -30,6 +31,17 @@ async function bootstrap() {
   gameView.position.set(config.AREA_PADDING, config.AREA_PADDING)
 
   app.stage.addChild(gameView)
+
+  //random color
+  const color = theme.shapePallete[Math.floor(Math.random() * theme.shapePallete.length)]
+  const circle = new CircleShape(color, 30) 
+  circle.x = config.AREA_WIDTH / 2
+  circle.y = -30
+  gameView.shapesLayer.addChild(circle)
+
+  app.ticker.add((ticker) => {
+    circle.updateGravity(config.GRAVITY, ticker.deltaTime)
+  })
 }
 
 bootstrap().catch(console.error)

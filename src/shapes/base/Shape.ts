@@ -1,6 +1,6 @@
 import { Graphics } from "pixi.js";
 
-abstract class Shape extends Graphics {
+export abstract class Shape extends Graphics {
 
  protected color: number
  protected size: number 

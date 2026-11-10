@@ -5,4 +5,5 @@ export interface Theme {
     pageBackground: number
     areaFill: FillInput
     areaBorder: StrokeInput
+    shapePallete: number[]
 }
