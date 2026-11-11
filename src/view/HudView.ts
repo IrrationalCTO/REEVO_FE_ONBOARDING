@@ -1,6 +1,7 @@
 export class HudView {
  private readonly countEl: HTMLSpanElement
  private readonly areaEl: HTMLSpanElement
+ 
 
  constructor(parent: HTMLElement) {
     const root = document.createElement('div')
