@@ -5,6 +5,7 @@ import { ERROR_MESSAGES } from './errorMessages'
 import { getInitialTheme } from './theme';
 import { GameView } from './view/GameView';
 import { GameController } from './controller/GameController';
+import { HudView } from './view/HudView';
 
 
 async function bootstrap() {
@@ -22,18 +23,24 @@ async function bootstrap() {
      resolution: window.devicePixelRatio
   })
   
-  const appContainer = document.querySelector("#app")
+  const appContainer = document.querySelector<HTMLElement>("#app")
   if (!appContainer) {
     throw new Error (ERROR_MESSAGES.ELEMENT_NOT_FOUND("#app"))
   }
 
   appContainer.appendChild(app.canvas)
+  
   const gameView = new GameView(config.AREA_WIDTH, config.AREA_HEIGHT, theme)
   gameView.position.set(config.AREA_PADDING, config.AREA_PADDING)
 
   app.stage.addChild(gameView)
+
   const controller = new GameController(gameView, theme.shapePallete)
+  const hud = new HudView(appContainer)
+
+  controller.onStatsChange((count, area) => hud.update(count, area))
   app.ticker.add((ticker) => controller.update(ticker))
+
 }
 
 bootstrap().catch(console.error)

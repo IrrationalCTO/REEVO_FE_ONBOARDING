@@ -14,11 +14,22 @@ export class GameController {
     private gravity: number = config.GRAVITY
     private shapesPerSecond: number = config.SHAPES_PER_SECOND
     private spawnTimer = 0
+    private totalArea = 0
+    private statsListener?: (count: number, area: number) => void
 
     constructor (view: GameView, pallette: number[]) {
         this.pallette = pallette
         this.view = view
         this.view.onAreaClick((x, y) => this.spawnAt(x, y))
+    }
+
+    public onStatsChange(listener: (count: number, area: number) => void): void {
+        this.statsListener = listener
+        this.notifyStats()
+    }
+
+    private notifyStats(): void {
+        this.statsListener?.(this.shapes.size, this.totalArea)
     }
 
     private spawnAt(x: number, y: number): void {
@@ -39,15 +50,23 @@ export class GameController {
         shape.position.set(x, y)
         this.shapes.add(shape)
         this.view.shapesLayer.addChild(shape)
+        
         shape.eventMode = 'static'
         shape.cursor = 'pointer'
         shape.on('pointerdown', () => this.removeShape(shape))
+        
+        this.totalArea += shape.getArea()
+        this.notifyStats()
     }
+    
 
     public removeShape(shape: Shape): void {
         shape.removeAllListeners()
+        
         this.shapes.delete(shape)
         this.pool.release(shape)
+        this.totalArea -= shape.getArea()
+        this.notifyStats()
     }
 
     private handleSpawning(deltaMS: number): void {
