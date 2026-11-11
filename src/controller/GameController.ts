@@ -4,6 +4,7 @@ import type { GameView } from "../view/GameView"
 import { ShapeFactory } from "../shapes/factory/ShapeFactory";
 import { config } from "../config";
 import { ShapePool } from "../shapes/factory/ShapePool";
+import { clamp } from "../utils/math";
 
 export class GameController {
     private readonly view: GameView
@@ -44,6 +45,25 @@ export class GameController {
     public update(ticker: Ticker): void {
         this.handleSpawning(ticker.deltaMS)
         this.updateShapes(ticker.deltaTime)
+    }
+
+    public get spawnRate(): number { return this.shapesPerSecond }
+    
+    public get currentGravity(): number { return this.gravity }
+
+    public changeSpawnRate(direction: 1 | -1): number {
+        const { SPAWN_RATE_STEP, MIN_SPAWN_RATE, MAX_SPAWN_RATE } = config
+    
+        this.shapesPerSecond = clamp(this.shapesPerSecond + direction * SPAWN_RATE_STEP, MIN_SPAWN_RATE, MAX_SPAWN_RATE)
+        return this.shapesPerSecond
+    }
+
+    public changeGravity(direction: 1 | -1): number {
+        const { GRAVITY_STEP, MIN_GRAVITY, MAX_GRAVITY } = config
+        const next = clamp(this.gravity + direction * GRAVITY_STEP, MIN_GRAVITY, MAX_GRAVITY)
+    
+        this.gravity = Math.round(next * 100) / 100   // avoids 0.15000000000000002
+        return this.gravity
     }
 
     public addShape(shape: Shape, x: number, y: number): void {
