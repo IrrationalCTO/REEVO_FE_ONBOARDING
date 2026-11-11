@@ -21,6 +21,13 @@ export abstract class Shape extends Graphics {
     this.y += this.velocityY * deltaTime  //position (actual movement)
  }
 
+public reset(color: number, size: number): void {
+    this.color = color
+    this.size = size
+    this.velocityY = 0
+    this.render()
+}
+
  public render(): void {
     this.clear()
     this.draw()

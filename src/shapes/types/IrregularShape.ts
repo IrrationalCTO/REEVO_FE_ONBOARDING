@@ -3,7 +3,7 @@ import { Shape } from "../base/Shape";
 export class IrregularShape extends Shape {
 
     //['x1', 'y1', 'x2', 'y2', 'x3', 'y3']
-    private readonly points: number[]
+    private points: number[]
 
     constructor(color: number, size: number) {
         super(color, size)
@@ -33,13 +33,19 @@ export class IrregularShape extends Shape {
 }
 
     // shoelace formula
-    public getArea(): number {
-        const p = this.points
-        let sum = 0
-        for (let i = 0; i < p.length; i += 2) {
-            const j = (i + 2) % p.length // next point, wraps to the first
-            sum += p[i] * p[j + 1] - p[j] * p[i + 1]
+public getArea(): number {
+    const p = this.points
+    let sum = 0
+    for (let i = 0; i < p.length; i += 2) {
+        const j = (i + 2) % p.length // next point, wraps to the first
+        sum += p[i] * p[j + 1] - p[j] * p[i + 1]
     }
     return Math.abs(sum) / 2
-    }
+}
+
+public override reset(color: number, size: number): void {
+    this.size = size                    // generatePoints uses size
+    this.points = this.generatePoints()
+    super.reset(color, size)
+}
 }

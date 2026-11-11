@@ -37,13 +37,17 @@ export class ShapeFactory {
     public static createIrregular(palette: number[]): Shape {
         return this.create('irregular', this.pick(palette), this.randomSize())
     }
+    public static randomType(): ShapeType {
+        return this.pick(ShapeFactory.FALLING_TYPES)
+    }
 
-    private static pick<T>(items: T[]): T {
+    public static pick<T>(items: T[]): T {
         return items[Math.floor(Math.random() * items.length)]
     }
 
-    private static randomSize(): number {
+    public static randomSize(): number {
         const { MIN_SHAPE_SIZE, MAX_SHAPE_SIZE } = config
         return MIN_SHAPE_SIZE + Math.random() * (MAX_SHAPE_SIZE - MIN_SHAPE_SIZE)
     }
+    
 }

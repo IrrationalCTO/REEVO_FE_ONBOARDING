@@ -34,7 +34,6 @@ async function bootstrap() {
   app.stage.addChild(gameView)
   const controller = new GameController(gameView, theme.shapePallete)
   app.ticker.add((ticker) => controller.update(ticker))
-  
 }
 
 bootstrap().catch(console.error)

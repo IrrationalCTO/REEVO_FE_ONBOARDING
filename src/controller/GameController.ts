@@ -3,10 +3,13 @@ import type { Shape } from "../shapes/base/Shape"
 import type { GameView } from "../view/GameView"
 import { ShapeFactory } from "../shapes/factory/ShapeFactory";
 import { config } from "../config";
+import { ShapePool } from "../shapes/factory/ShapePool";
+
 export class GameController {
     private readonly view: GameView
     private readonly pallette: number[]
     private readonly shapes = new Set<Shape>()
+    private readonly pool = new ShapePool
 
     private gravity: number = config.GRAVITY
     private shapesPerSecond: number = config.SHAPES_PER_SECOND
@@ -29,8 +32,7 @@ export class GameController {
 
     public removeShape(shape: Shape): void {
         this.shapes.delete(shape)
-        shape.removeFromParent()
-        shape.destroy() // frees GPU memory (the pool will replace this later)
+        this.pool.release(shape)
     }
 
     private handleSpawning(deltaMS: number): void {
@@ -43,7 +45,11 @@ export class GameController {
     }
 
     private spawnRandomShape(): void {
-        const shape = ShapeFactory.createRandom(this.pallette)
+        const shape = this.pool.acquire(
+        ShapeFactory.randomType(),
+        ShapeFactory.pick(this.pallette),
+        ShapeFactory.randomSize()
+)
         const margin = config.MAX_SHAPE_SIZE
         const x = margin + Math.random() * (config.AREA_WIDTH - margin * 2)
         const y = -margin // starts fully above the top edge
