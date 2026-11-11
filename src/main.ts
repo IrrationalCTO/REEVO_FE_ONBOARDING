@@ -6,6 +6,8 @@ import { getInitialTheme } from './theme';
 import { GameView } from './view/GameView';
 import { GameController } from './controller/GameController';
 import { HudView } from './view/HudView';
+import { ControlsView } from './view/ControlsView';
+
 
 
 async function bootstrap() {
@@ -39,8 +41,12 @@ async function bootstrap() {
   const hud = new HudView(appContainer)
 
   controller.onStatsChange((count, area) => hud.update(count, area))
+  
+  const controls = new ControlsView(appContainer)
+  controls.addControl('Shapes/sec', controller.spawnRate, (d) => controller.changeSpawnRate(d))
+  controls.addControl('Gravity', controller.currentGravity, (d) => controller.changeGravity(d), 2)
+  
   app.ticker.add((ticker) => controller.update(ticker))
-
 }
 
 bootstrap().catch(console.error)
