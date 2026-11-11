@@ -5,5 +5,6 @@ export const config = {
  GRAVITY: 0.1,
  MIN_SHAPE_SIZE: 20,
  MAX_SHAPE_SIZE: 50,
- AREA_PADDING: 50
+ AREA_PADDING: 50,
+ SHAPES_PER_SECOND: 1,
 } as const 
