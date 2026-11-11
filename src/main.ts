@@ -30,7 +30,11 @@ async function bootstrap() {
     throw new Error (ERROR_MESSAGES.ELEMENT_NOT_FOUND("#app"))
   }
 
-  appContainer.appendChild(app.canvas)
+  const gameWrapper = document.createElement('div')
+  
+  gameWrapper.className = 'game'
+  appContainer.appendChild(gameWrapper)
+  gameWrapper.appendChild(app.canvas)
   
   const gameView = new GameView(config.AREA_WIDTH, config.AREA_HEIGHT, theme)
   gameView.position.set(config.AREA_PADDING, config.AREA_PADDING)
@@ -38,7 +42,7 @@ async function bootstrap() {
   app.stage.addChild(gameView)
 
   const controller = new GameController(gameView, theme.shapePallete)
-  const hud = new HudView(appContainer)
+  const hud = new HudView(gameWrapper)
 
   controller.onStatsChange((count, area) => hud.update(count, area))
   
