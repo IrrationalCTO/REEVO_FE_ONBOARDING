@@ -23,6 +23,15 @@ export class GameView extends Container {
     this.addChild(this.background, this.shapesLayer, this.areaMask)
  }
 
+ public onAreaClick(handler: (x: number, y: number) => void): void {
+    this.background.eventMode = 'static'
+    this.background.cursor = 'crosshair'
+    this.background.on('pointerdown', (event) => {
+        const point = this.toLocal(event.global) // canvas coords → area coords
+        handler(point.x, point.y)
+ })
+}
+
  private drawBackground(): void {
     this.background.rect(0, 0, this.areaWidth, this.areaHeight)
     .fill(this.theme.areaFill)

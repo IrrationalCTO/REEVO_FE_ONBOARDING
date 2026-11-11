@@ -32,7 +32,8 @@ export class IrregularShape extends Shape {
     this.poly(this.points).fill(this.color)
 }
 
-    // shoelace formula
+
+// shoelace formula
 public getArea(): number {
     const p = this.points
     let sum = 0

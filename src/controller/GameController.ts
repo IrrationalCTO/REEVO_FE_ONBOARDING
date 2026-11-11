@@ -18,8 +18,19 @@ export class GameController {
     constructor (view: GameView, pallette: number[]) {
         this.pallette = pallette
         this.view = view
+        this.view.onAreaClick((x, y) => this.spawnAt(x, y))
     }
-     public update(ticker: Ticker): void {
+
+    private spawnAt(x: number, y: number): void {
+        const shape = this.pool.acquire(
+        'irregular',
+        ShapeFactory.pick(this.pallette),
+        ShapeFactory.randomSize()
+    )
+    this.addShape(shape, x, y)
+    }
+
+    public update(ticker: Ticker): void {
         this.handleSpawning(ticker.deltaMS)
         this.updateShapes(ticker.deltaTime)
     }
@@ -28,9 +39,13 @@ export class GameController {
         shape.position.set(x, y)
         this.shapes.add(shape)
         this.view.shapesLayer.addChild(shape)
+        shape.eventMode = 'static'
+        shape.cursor = 'pointer'
+        shape.on('pointerdown', () => this.removeShape(shape))
     }
 
     public removeShape(shape: Shape): void {
+        shape.removeAllListeners()
         this.shapes.delete(shape)
         this.pool.release(shape)
     }
