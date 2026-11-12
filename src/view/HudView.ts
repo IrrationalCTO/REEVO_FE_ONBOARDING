@@ -17,11 +17,12 @@ export class HudView {
  }
 
  private addField(root: HTMLElement, label: string): HTMLSpanElement {
-    const row = document.createElement('div')
-    const value = document.createElement('span')
+    const tab = document.createElement('div')
+    tab.className = 'hud-tab'
+    const value = document.createElement('strong')
     value.textContent = '0'
-    row.append(`${label}: `, value)
-    root.appendChild(row)
+    tab.append(`${label}: `, value)
+    root.appendChild(tab)
     return value
-    }
+}
 }
